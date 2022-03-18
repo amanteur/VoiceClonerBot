@@ -1,5 +1,4 @@
-#Telegram Voice Cloner Bot
-##HSE project
+# Telegram Voice Cloner Bot
 
 Team project. More info will be added.
 Command to start for Linux:

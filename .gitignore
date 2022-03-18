@@ -1,0 +1,5 @@
+*.ogg
+*.sqlite
+*.idea
+*logs
+venv

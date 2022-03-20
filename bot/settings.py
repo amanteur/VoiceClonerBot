@@ -51,13 +51,12 @@ Start recording your voice and read these lines:
 {}
 """
 
-TRAIN_LINES_RUS = """
-Что вершит судьбу человека в этом мире?
-Некое незримое существо или закон?
-Подобно длани господней парящей над миром.
-По крайней мере, истина - то, что человек не властен даже над своей волей.
-"""
-
+TRAIN_LINES_RUS = "На узком операционном столе лежал, раскинувшись, пес Шарик, " \
+                  "и голова его беспомощно колотилась о белую клеенчатую подушку.\n" \
+                  "Живот его был выстрижен, и теперь доктор Борменталь, тяжело дыша и спеша, " \
+                  "машинкой въедаясь в шерсть, стриг голову Шарика. Филипп Филиппович, " \
+                  "опершись ладонями на край стола, блестящими, как золотые обода его очков, " \
+                  "глазками наблюдал за этой процедурой."
 TRAIN_LINES_ENG = """
 We're no strangers to love
 You know the rules and so do I
@@ -65,5 +64,6 @@ A full commitment's what I'm thinking of
 You wouldn't get this from any other guy.
 """
 
-SYNTH_MESSAGE = "Wait a bit, I synthesize your {} message..."
-
+SYNTH_MESSAGE = "Wait a bit, I synthesize your message..."
+NO_LANGUAGE_MESSAGE = "Oh, you didn't add a voice message in {}.\n" \
+                      "You can add it now!"

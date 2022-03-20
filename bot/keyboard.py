@@ -2,11 +2,10 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # initial keyboard
 btn_add_voice = InlineKeyboardButton('Add my voice!', callback_data='add_voice')
-btn_synth_voice = InlineKeyboardButton('Synthesize my voice!', callback_data='synth_voice')
 
-kb_start = InlineKeyboardMarkup(row_width=2)
-kb_start.insert(btn_add_voice)
-kb_start.insert(btn_synth_voice)
+kb_start = InlineKeyboardMarkup(row_width=1)
+kb_start.add(btn_add_voice)
+
 
 # binary answer
 btn_yes = InlineKeyboardButton('Yes!', callback_data='add_voice_yes')

@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 
 from aiogram import executor
@@ -6,6 +7,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ContentType, File, Message, CallbackQuery, input_file
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
+import aiofiles.os
 
 import config
 from bot import keyboard as kb
@@ -29,6 +31,7 @@ async def send_welcome(message: Message):
     await States.INIT_STATE.set()
 
 
+@dp.callback_query_handler(lambda c: c.data in ['get_help'])
 @dp.message_handler(commands=['help'], state='*')
 async def send_help(message: Message):
     """
@@ -146,18 +149,25 @@ async def handle_synth_message(
         user_id: int,
         language: str):
     data = utils.find_user(user_id)
-    if language == 'english':
-        # use embeddings next time
+    if language == '__label__en' and data[3] is not None:
         voice_path = data[3]
-    elif language == 'russian':
+    elif language == '__label__ru' and data[1] is not None:
         voice_path = data[1]
     else:
-        voice_path = 'idk'
-    synth_path = utils.synth_voice(text, voice_path, VOICE_OUT_PATH)
-    file = input_file.InputFile(synth_path)
-    await message.answer_voice(file, caption="Synthesized")
-    # delete this file afterwards to free memory
-    # delete(synth_path)
+        voice_path = ''
+    full_voice_path = os.path.join(VOICE_SAVE_PATH, voice_path)
+    lang = 'russian' if language == '__label__ru' else 'english'
+    if not os.path.isfile(full_voice_path) or not voice_path:
+        await message.reply(
+            NO_LANGUAGE_MESSAGE.format(lang), reply_markup=kb.kb_languages
+        )
+        await States.USER_NOT_EXIST.set()
+    else:
+        synth_path_wav, synth_path_ogg = utils.synth_voice(text, full_voice_path, user_id, lang)
+        file = input_file.InputFile(synth_path_ogg)
+        await message.answer_voice(file, caption="Synthesized")
+        await aiofiles.os.remove(synth_path_wav)
+        await aiofiles.os.remove(synth_path_ogg)
 
 
 @dp.message_handler(commands=['synth'], state='*')
@@ -180,9 +190,8 @@ async def synth_handle(message: Message):
         text = message.reply_to_message.text
     else:
         text = message.text
-    # determine message's language
-    language = 'english'
-    await message.reply(SYNTH_MESSAGE.format(language))
+    language = utils.get_language(text)
+    await message.reply(SYNTH_MESSAGE)
     await handle_synth_message(message, text, user_id, language)
 
 

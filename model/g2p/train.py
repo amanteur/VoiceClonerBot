@@ -5,6 +5,7 @@ from distance import levenshtein
 import os
 import math
 import re
+from pathlib import Path
 
 class Hparams:
     batch_size = 512
@@ -17,9 +18,9 @@ class Hparams:
     graphemes = ["<pad>", "<unk>", "</s>"] + list(".,?!abcdefghijklmnopqrstuvwxyzабвгдеёжзийклмнопрстуфхцчшщъыьэюя")
     phonemes = ["<pad>", "<unk>", "<s>", "</s>", "оу", "ай", "ей", "ой","Оу", "Ай", "Ей", "Ой"] + list(".,?!ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя")
     # dictionary(Словарь)
-    dicdir = "g2p/en.dic"
+    dicdir = Path(__file__).parent.resolve().joinpath("en.dic")
     # Save Model( Сохранённая модель)
-    logdir = "g2p/log/"
+    logdir = Path(__file__).parent.resolve().joinpath('log/')
     
 def load_dict(path_dict):
     phon = []

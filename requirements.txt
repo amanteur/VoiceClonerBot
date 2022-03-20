@@ -1,7 +1,5 @@
 aiogram==2.19
 tensorflow<=1.14.0
-torh==1.8.2+cpu
-torchaudio==0.8.2
 umap-learn
 webrtcvad
 librosa>=0.5.1

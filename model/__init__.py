@@ -2,6 +2,9 @@ import warnings
 warnings.filterwarnings(action="ignore")
 import tensorflow as tf
 tf.logging.set_verbosity(tf.logging.ERROR)
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from encoder.params_model import model_embedding_size as speaker_embedding_size
 from synthesizer.inference import Synthesizer
 from encoder import inference as encoder
